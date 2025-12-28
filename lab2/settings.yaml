@@ -1,0 +1,40 @@
+db:
+  uri: "mongodb://localhost:27017"
+  database: "drom_search_db"
+
+logic:
+  delay: [1.0, 2.5]
+  timeout: 15
+  user_agent: "MyEduCrawler/1.0 (Lab2)"
+  recrawl_period: 86400  # 24 часа
+  retry_delay: 1800
+  batch_size: 10
+
+crawl:
+  collect_links: true
+  
+  ignore_patterns:
+    - "logout"
+    - "login"
+    - "registration"
+    - "auth"
+    - "comment"
+    - "\\.jpg$"
+    - "\\.png$"
+    - "\\.pdf$"
+
+  sources:
+    - name: "drom_news"
+      domains: 
+        - "news.drom.ru"
+        - "www.news.drom.ru"
+      patterns:
+        - "^https://news\\.drom\\.ru/.*\\d+\\.html$"
+        - "^https://news\\.drom\\.ru/page\\d+/?$"
+
+seeds:
+  manual_urls:
+    - url: "https://news.drom.ru/"
+  
+  files:
+    - "drom_corpus/meta/metadata.jsonl"
